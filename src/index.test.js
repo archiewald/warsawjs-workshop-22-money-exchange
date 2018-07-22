@@ -1,4 +1,3 @@
 import './index';
 
-test('Jest should work', () => {
-});
+test('Jest should work', () => {});
