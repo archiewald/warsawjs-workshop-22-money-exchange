@@ -76,3 +76,46 @@ describe('constructor error handling', () => {
     }).toThrow();
   });
 });
+
+describe('Buy currency', () => {
+  test('Given amount and code should return buy price', () => {
+    expect(exchange.buy('EUR', 100)).toEqual(100 * 4 * 1.3);
+    expect(new CurrencyExchange([
+      {code: 'EUR', buy: 4, sell: 3},
+    ], 1.8).buy('EUR', 100)).toEqual(100 * 4 * 1.8);
+  });
+
+  test.each([['YEN', 100],
+    ['EUR', -100],
+    [undefined,undefined]
+  ])('Must throw an error for [%p,%p]',(code, amount) => {
+    expect(()=> {
+      exchange.buy(code,amount);
+    }).toThrow();
+  });
+});
+
+describe('Sell currency', () => {
+  test('Given amount and code should return buy price', () => {
+    expect(exchange.sell('EUR', 100)).toEqual(100 * 3 * 1.3);
+    expect(new CurrencyExchange([
+      {code: 'EUR', buy: 4, sell: 3},
+    ], undefined, 1.8).sell('EUR', 100)).toEqual(100 * 3 * 1.8);
+  });
+
+  test.each([['YEN', 100],
+    ['EUR', -100],
+    [undefined,undefined]
+  ])('Must throw an error for [%p,%p]',(code, amount) => {
+    expect(()=> {
+      exchange.sell(code,amount);
+    }).toThrow();
+  });
+});
+
+describe('Exchange currency', () => {
+  test(`Given [from currency ,from amount, currency to buy]
+  should return price`, () => {
+    exchange.exchange('EUR','GPB', 100).toEqual(4*1.3/1.3*3.5);
+  });
+});

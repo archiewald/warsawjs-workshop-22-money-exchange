@@ -1,4 +1,4 @@
-export function isPriceFormat(price){
+export function isPositiveNumber(price){
   return typeof (price) === 'number' && price > 0;
 }
 
